@@ -115,6 +115,35 @@ class PropertyController extends Controller
         return back()->with('success', 'Propriété supprimée avec succès.');
     }
 
+    public function deleteImage(\App\Models\PropertyImage $image)
+    {
+        $this->authorizeOwner($image->property);
+        
+        \Storage::disk('public')->delete($image->path);
+        
+        if ($image->is_primary) {
+            $image->delete();
+            $nextImage = $image->property->images()->first();
+            if ($nextImage) {
+                $nextImage->update(['is_primary' => true]);
+            }
+        } else {
+            $image->delete();
+        }
+
+        return back()->with('success', 'Image supprimée.');
+    }
+
+    public function setPrimaryImage(\App\Models\PropertyImage $image)
+    {
+        $this->authorizeOwner($image->property);
+        
+        $image->property->images()->update(['is_primary' => false]);
+        $image->update(['is_primary' => true]);
+
+        return back()->with('success', 'Image principale mise à jour.');
+    }
+
     private function authorizeOwner(Property $property)
     {
         if ($property->user_id !== Auth::id()) {
