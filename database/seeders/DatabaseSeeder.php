@@ -15,8 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\City::create(['name' => 'Casablanca', 'region' => 'Casablanca-Settat']);
-        \App\Models\City::create(['name' => 'Rabat', 'region' => 'Rabat-Salé-Kénitra']);
-        \App\Models\City::create(['name' => 'Marrakech', 'region' => 'Marrakech-Safi']);
+        $this->call(CitySeeder::class);
+        
+        // User::factory(10)->create();
     }
 }
