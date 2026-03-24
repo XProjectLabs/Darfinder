@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Property extends Model
 {
+    const STATUS_PENDING = 'pending';
+    const STATUS_ACTIVE = 'active';
+    const STATUS_REJECTED = 'rejected';
+
     protected $fillable = [
         'user_id', 
         'city_id', 

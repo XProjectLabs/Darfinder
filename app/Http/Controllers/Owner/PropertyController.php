@@ -87,7 +87,7 @@ class PropertyController extends Controller
             'furnished' => ['required', 'boolean'],
             'city_id' => ['required', 'exists:cities,id'],
             'description' => ['nullable', 'string'],
-            'status' => ['required', 'in:available,sold,rented'],
+            'status' => ['required', 'in:pending,active,rejected'],
             'images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
 

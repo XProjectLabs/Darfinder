@@ -113,7 +113,7 @@
                 ['name' => 'Tanger', 'img' => asset('cities/tanger.png')],
                 ['name' => 'Rabat', 'img' => asset('cities/rabat.png')],
                 ['name' => 'Chefchaouen', 'img' => asset('cities/chefchaouen.png')],
-                ['name' => 'Agadir', 'img' => 'https://images.unsplash.com/photo-1623594001815-5192ee1e17f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'],
+                ['name' => 'Agadir', 'img' => asset('cities/casablanca.png')],
             ];
         @endphp
         @foreach ($cities as $city)
