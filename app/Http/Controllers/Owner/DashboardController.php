@@ -10,20 +10,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // ... (existing index code)
+    }
+
+    public function stats()
+    {
         $user = Auth::user();
+        $properties = $user->properties()->withCount('favorites')->get();
         
-        $stats = [
-            'total_properties' => $user->properties()->count(),
-            'active_listings' => $user->properties()->where('status', 'available')->count(),
-            'total_views' => $user->properties()->sum('views_count'),
-            'favorites_count' => $user->properties()->withCount('favorites')->get()->sum('favorites_count'),
-        ];
-
-        $recentProperties = $user->properties()
-            ->latest()
-            ->limit(5)
-            ->get();
-
-        return view('owner.dashboard', compact('stats', 'recentProperties'));
+        return view('owner.stats', compact('properties'));
     }
 }

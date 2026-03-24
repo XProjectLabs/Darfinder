@@ -143,7 +143,7 @@
             <a href="{{ route('owner.properties.create') }}" class="nav-link">
                 <i class="bi bi-plus-circle"></i> Ajouter un Bien
             </a>
-            <a href="#" class="nav-link">
+            <a href="{{ route('owner.stats') }}" class="nav-link {{ request()->routeIs('owner.stats') ? 'active' : '' }}">
                 <i class="bi bi-bar-chart"></i> Statistiques
             </a>
             <a href="{{ route('owner.profile') }}" class="nav-link {{ request()->routeIs('owner.profile') ? 'active' : '' }}">

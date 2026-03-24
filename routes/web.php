@@ -20,6 +20,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // Owner Routes
 Route::middleware(['auth', 'role:propriétaire'])->prefix('owner')->name('owner.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Owner\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/stats', [App\Http\Controllers\Owner\DashboardController::class, 'stats'])->name('stats');
     Route::resource('properties', App\Http\Controllers\Owner\PropertyController::class);
     Route::get('/profile', [App\Http\Controllers\Owner\ProfileController::class, 'index'])->name('profile');
     Route::put('/profile', [App\Http\Controllers\Owner\ProfileController::class, 'update'])->name('profile.update');
