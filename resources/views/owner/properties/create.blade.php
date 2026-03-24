@@ -5,8 +5,18 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-lg-10">
-        <form action="{{ route('owner.properties.store') }}" method="POST" class="needs-validation">
+        <form action="{{ route('owner.properties.store') }}" method="POST" class="needs-validation" enctype="multipart/form-data">
             @csrf
+            
+            @if($errors->any())
+                <div class="alert alert-danger border-0 shadow-sm rounded-4 mb-4">
+                    <ul class="mb-0">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             
             <div class="card card-custom p-4 mb-4">
                 <h5 class="playfair fw-bold mb-4">Informations Générales</h5>
