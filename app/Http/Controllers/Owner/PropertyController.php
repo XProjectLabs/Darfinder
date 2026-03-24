@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PropertyController extends Controller
 {
