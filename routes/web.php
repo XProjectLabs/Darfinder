@@ -16,3 +16,12 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Owner Routes
+Route::middleware(['auth', 'role:propriétaire'])->prefix('owner')->name('owner.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Owner\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('properties', App\Http\Controllers\Owner\PropertyController::class);
+    Route::get('/profile', [App\Http\Controllers\Owner\ProfileController::class, 'index'])->name('profile');
+    Route::put('/profile', [App\Http\Controllers\Owner\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [App\Http\Controllers\Owner\ProfileController::class, 'updatePassword'])->name('profile.password');
+});

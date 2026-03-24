@@ -16,7 +16,8 @@ class Property extends Model
         'rooms', 
         'furnished', 
         'status', 
-        'views_count'
+        'views_count',
+        'description'
     ];
 
     public function user()
