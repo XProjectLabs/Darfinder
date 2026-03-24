@@ -38,23 +38,36 @@ class PropertyController extends Controller
             'furnished' => ['required', 'boolean'],
             'city_id' => ['required', 'exists:cities,id'],
             'description' => ['nullable', 'string'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
 
-        $property = Auth::user()->properties()->create($request->all());
+        $property = Auth::user()->properties()->create($request->except('images'));
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $index => $image) {
+                $path = $image->store('properties', 'public');
+                $property->images()->create([
+                    'path' => $path,
+                    'is_primary' => $index === 0, // First image is primary by default if not specified
+                ]);
+            }
+        }
 
         return redirect()->route('owner.properties.index')
-            ->with('success', 'Propriété ajoutée avec succès. Vous pouvez maintenant ajouter des images.');
+            ->with('success', 'Propriété ajoutée avec succès.');
     }
 
     public function show(Property $property)
     {
         $this->authorizeOwner($property);
+        $property->load('images');
         return view('owner.properties.show', compact('property'));
     }
 
     public function edit(Property $property)
     {
         $this->authorizeOwner($property);
+        $property->load('images');
         $cities = City::all();
         $types = ['appartement', 'maison', 'villa', 'riad', 'terrain', 'bureau'];
         return view('owner.properties.edit', compact('property', 'cities', 'types'));
@@ -74,13 +87,25 @@ class PropertyController extends Controller
             'city_id' => ['required', 'exists:cities,id'],
             'description' => ['nullable', 'string'],
             'status' => ['required', 'in:available,sold,rented'],
+            'images.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
 
-        $property->update($request->all());
+        $property->update($request->except('images'));
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('properties', 'public');
+                $property->images()->create([
+                    'path' => $path,
+                    'is_primary' => !$property->images()->where('is_primary', true)->exists(),
+                ]);
+            }
+        }
 
         return redirect()->route('owner.properties.index')
             ->with('success', 'Propriété mise à jour avec succès.');
     }
+
 
     public function destroy(Property $property)
     {

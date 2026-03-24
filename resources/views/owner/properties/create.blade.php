@@ -61,6 +61,18 @@
             </div>
 
             <div class="card card-custom p-4 mb-4">
+                <h5 class="playfair fw-bold mb-4">Photos du Bien</h5>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold">Sélectionnez plusieurs images</label>
+                    <input type="file" name="images[]" id="imageInput" class="form-control" multiple accept="image/*">
+                    <div id="imagePreviewContainer" class="row g-2 mt-3">
+                        <!-- Previews will appear here -->
+                    </div>
+                    <div class="form-text mt-2"><i class="bi bi-info-circle"></i> La première image sera définie comme image principale par défaut.</div>
+                </div>
+            </div>
+
+            <div class="card card-custom p-4 mb-4">
                 <h5 class="playfair fw-bold mb-4">Description</h5>
                 <div class="mb-3">
                     <textarea name="description" class="form-control" rows="6" placeholder="Décrivez les atouts de votre bien en quelques lignes..."></textarea>
@@ -74,4 +86,31 @@
         </form>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    document.getElementById('imageInput').addEventListener('change', function(event) {
+        const container = document.getElementById('imagePreviewContainer');
+        container.innerHTML = '';
+        
+        const files = event.target.files;
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const col = document.createElement('div');
+                col.className = 'col-md-2 position-relative';
+                col.innerHTML = `
+                    <img src="${e.target.result}" class="img-fluid rounded-3 shadow-sm border" style="height: 100px; width: 100%; object-fit: cover;">
+                    ${i === 0 ? '<span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-warning text-dark small">Principal</span>' : ''}
+                `;
+                container.appendChild(col);
+            }
+            
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
 @endsection
