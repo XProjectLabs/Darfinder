@@ -28,3 +28,11 @@ Route::middleware(['auth', 'role:propriétaire'])->prefix('owner')->name('owner.
     Route::put('/profile', [App\Http\Controllers\Owner\ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [App\Http\Controllers\Owner\ProfileController::class, 'updatePassword'])->name('profile.password');
 });
+// Admin Routes
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('dashboard');
+
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
+});

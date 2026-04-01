@@ -24,10 +24,10 @@
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
-                        <label class="form-label small fw-bold">Type de bien</label>
-                        <select name="type" class="form-select" required>
-                            @foreach($types as $type)
-                            <option value="{{ $type }}" {{ $property->type == $type ? 'selected' : '' }}>{{ ucfirst($type) }}</option>
+                        <label class="form-label small fw-bold">Catégorie de bien</label>
+                        <select name="category_id" class="form-select" required>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}" {{ $property->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                             @endforeach
                         </select>
                     </div>

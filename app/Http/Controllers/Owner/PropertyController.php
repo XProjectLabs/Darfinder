@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\Category;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,15 +25,15 @@ class PropertyController extends Controller
     public function create()
     {
         $cities = City::all();
-        $types = ['appartement', 'maison', 'villa', 'riad', 'terrain', 'bureau'];
-        return view('owner.properties.create', compact('cities', 'types'));
+        $categories = Category::all();
+        return view('owner.properties.create', compact('cities', 'categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string'],
+            'category_id' => ['required', 'exists:categories,id'],
             'price' => ['required', 'numeric', 'min:0'],
             'surface' => ['required', 'integer', 'min:1'],
             'rooms' => ['required', 'integer', 'min:0'],
@@ -70,8 +71,8 @@ class PropertyController extends Controller
         $this->authorizeOwner($property);
         $property->load('images');
         $cities = City::all();
-        $types = ['appartement', 'maison', 'villa', 'riad', 'terrain', 'bureau'];
-        return view('owner.properties.edit', compact('property', 'cities', 'types'));
+        $categories = Category::all();
+        return view('owner.properties.edit', compact('property', 'cities', 'categories'));
     }
 
     public function update(Request $request, Property $property)
@@ -80,7 +81,7 @@ class PropertyController extends Controller
 
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string'],
+            'category_id' => ['required', 'exists:categories,id'],
             'price' => ['required', 'numeric', 'min:0'],
             'surface' => ['required', 'integer', 'min:1'],
             'rooms' => ['required', 'integer', 'min:0'],
