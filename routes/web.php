@@ -36,4 +36,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 
     Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
     Route::resource('cities', App\Http\Controllers\Admin\CityController::class)->except(['show']);
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class)->only(['index', 'show', 'destroy']);
+    Route::post('/users/{user}/toggle-status', [App\Http\Controllers\Admin\UserController::class, 'toggleStatus'])->name('users.toggle-status');
 });
