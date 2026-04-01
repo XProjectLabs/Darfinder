@@ -161,7 +161,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link {{ request()->routeIs('admin.cities.*') ? 'active' : '' }}" href="{{ route('admin.cities.index') }}">
                     <i class="bi bi-geo-alt"></i> Villes
                 </a>
             </li>

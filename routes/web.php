@@ -35,4 +35,5 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     })->name('dashboard');
 
     Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class)->except(['show']);
+    Route::resource('cities', App\Http\Controllers\Admin\CityController::class)->except(['show']);
 });
