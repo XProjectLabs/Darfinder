@@ -12,6 +12,22 @@ Route::get('/', function () {
     return view('welcome', compact('properties'));
 });
 
+Route::get('/properties/{id}', function ($id) {
+    $property = \App\Models\Property::with(['city', 'category', 'user', 'images'])->findOrFail($id);
+    
+    // Check if the property is active, unless owner or admin are viewing it
+    if ($property->status !== 'active') {
+        if (!auth()->check() || (auth()->user()->role !== 'admin' && auth()->user()->id !== $property->user_id)) {
+            abort(404);
+        }
+    }
+    
+    // Increment view count
+    $property->increment('views_count');
+    
+    return view('properties.show', compact('property'));
+})->name('properties.show');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
