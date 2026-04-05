@@ -21,9 +21,16 @@
             <div class="card card-custom p-4 mb-4">
                 <h5 class="playfair fw-bold mb-4">Informations Générales</h5>
                 <div class="row g-3">
-                    <div class="col-md-12 mb-3">
+                    <div class="col-md-8 mb-3">
                         <label class="form-label small fw-bold">Titre de l'annonce</label>
                         <input type="text" name="title" class="form-control" placeholder="Ex: Magnifique Riad avec Piscine" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label small fw-bold">Type de transaction</label>
+                        <select name="type" class="form-select" required>
+                            <option value="sale">Vente</option>
+                            <option value="rent">Location</option>
+                        </select>
                     </div>
                 </div>
 

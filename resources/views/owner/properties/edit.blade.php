@@ -16,9 +16,16 @@
                 </div>
                 
                 <div class="row g-3 mb-3">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <label class="form-label small fw-bold">Titre de l'annonce</label>
                         <input type="text" name="title" class="form-control" value="{{ old('title', $property->title) }}" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label small fw-bold">Type de transaction</label>
+                        <select name="type" class="form-select" required>
+                            <option value="sale" {{ old('type', $property->type) == 'sale' ? 'selected' : '' }}>Vente</option>
+                            <option value="rent" {{ old('type', $property->type) == 'rent' ? 'selected' : '' }}>Location</option>
+                        </select>
                     </div>
                 </div>
 

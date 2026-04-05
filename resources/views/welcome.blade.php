@@ -59,7 +59,7 @@
                     @php
                         $primaryImage = $prop->images->where('is_primary', true)->first();
                         // Fallback image if no physical image exists
-                        $imageUrl = $primaryImage ? asset('storage/' . $primaryImage->image_path) : 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                        $imageUrl = $primaryImage ? asset('storage/' . $primaryImage->path) : 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
                     @endphp
                     <img src="{{ $imageUrl }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ $prop->title }}">
                     <div class="position-absolute top-0 start-0 m-3">

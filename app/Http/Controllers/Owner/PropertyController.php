@@ -33,6 +33,7 @@ class PropertyController extends Controller
     {
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'in:rent,sale'],
             'category_id' => ['required', 'exists:categories,id'],
             'price' => ['required', 'numeric', 'min:0'],
             'surface' => ['required', 'integer', 'min:1'],
@@ -50,7 +51,7 @@ class PropertyController extends Controller
                 $path = $image->store('properties', 'public');
                 $property->images()->create([
                     'path' => $path,
-                    'is_primary' => $index === 0, // First image is primary by default if not specified
+                    'is_primary' => $index === 0, 
                 ]);
             }
         }
@@ -81,6 +82,7 @@ class PropertyController extends Controller
 
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
+            'type' => ['required', 'in:rent,sale'],
             'category_id' => ['required', 'exists:categories,id'],
             'price' => ['required', 'numeric', 'min:0'],
             'surface' => ['required', 'integer', 'min:1'],
