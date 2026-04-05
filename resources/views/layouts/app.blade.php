@@ -208,8 +208,15 @@
                                 <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-heart"></i> Favoris</a></li>
+                                @if(Auth::user()->role === 'admin')
+                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard Admin</a></li>
+                                @elseif(Auth::user()->role === 'propriétaire')
+                                    <li><a class="dropdown-item" href="{{ route('owner.dashboard') }}"><i class="bi bi-speedometer2"></i> Dashboard Propriétaire</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('owner.profile') }}"><i class="bi bi-person"></i> Mon Profil</a></li>
+                                @else
+                                    <li><a class="dropdown-item" href="{{ Route::has('client.profile') ? route('client.profile') : url('/client/profile') }}"><i class="bi bi-person"></i> Mon Profil</a></li>
+                                    <li><a class="dropdown-item" href="{{ Route::has('client.favorites') ? route('client.favorites') : url('/client/favorites') }}"><i class="bi bi-heart"></i> Mes Favoris</a></li>
+                                @endif
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">

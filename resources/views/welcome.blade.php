@@ -52,41 +52,48 @@
     </div>
 
     <div class="row g-4">
-        @php
-            $properties = [
-                ['title' => 'Riad Authentique au Cœur de la Médina', 'city' => 'Marrakech', 'price' => '4,500,000 DH', 'img' => 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
-                ['title' => 'Appartement Moderne Vue sur Mer', 'city' => 'Tanger', 'price' => '2,200,000 DH', 'img' => 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
-                ['title' => 'Villa Contemporaine style Andalou', 'city' => 'Casablanca', 'price' => '8,900,000 DH', 'img' => 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'],
-            ];
-        @endphp
-
-        @foreach ($properties as $prop)
+        @forelse ($properties as $prop)
         <div class="col-md-4">
             <div class="card h-100 shadow-sm">
                 <div class="position-relative">
-                    <img src="{{ $prop['img'] }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ $prop['title'] }}">
+                    @php
+                        $primaryImage = $prop->images->where('is_primary', true)->first();
+                        // Fallback image if no physical image exists
+                        $imageUrl = $primaryImage ? asset('storage/' . $primaryImage->image_path) : 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                    @endphp
+                    <img src="{{ $imageUrl }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ $prop->title }}">
                     <div class="position-absolute top-0 start-0 m-3">
                         <span class="badge badge-status bg-white shadow-sm">Nouveau</span>
                     </div>
                 </div>
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-gold"></i> {{ $prop['city'] }}</span>
-                        <div class="card-price">{{ $prop['price'] }}</div>
+                        <span class="small text-muted"><i class="bi bi-geo-alt-fill text-gold"></i> {{ $prop->city->name ?? 'Maroc' }}</span>
+                        <div class="card-price">{{ number_format($prop->price, 0, ',', ' ') }} DH</div>
                     </div>
-                    <h5 class="card-title fw-bold playfair mb-3" style="min-height: 56px;">{{ $prop['title'] }}</h5>
+                    <h5 class="card-title fw-bold playfair mb-3" style="min-height: 56px;">{{ $prop->title }}</h5>
                     <div class="d-flex text-muted small border-top pt-3 mb-0">
-                        <span class="me-3"><i class="bi bi-door-open-fill me-1"></i> 4 Ch</span>
-                        <span class="me-3"><i class="bi bi-aspect-ratio-fill me-1"></i> 180m²</span>
+                        @if($prop->rooms)
+                        <span class="me-3"><i class="bi bi-door-open-fill me-1"></i> {{ $prop->rooms }} Ch</span>
+                        @endif
+                        @if($prop->surface)
+                        <span class="me-3"><i class="bi bi-aspect-ratio-fill me-1"></i> {{ $prop->surface }}m²</span>
+                        @endif
+                        @if($prop->furnished)
                         <span><i class="bi bi-check-circle-fill text-success me-1"></i> Meublé</span>
+                        @endif
                     </div>
                 </div>
                 <div class="card-footer bg-white border-0 p-4 pt-0">
-                    <a href="#" class="btn btn-outline-primary w-100">Voir les détails</a>
+                    <a href="{{ url('/properties/' . $prop->id) }}" class="btn btn-outline-primary w-100">Voir les détails</a>
                 </div>
             </div>
         </div>
-        @endforeach
+        @empty
+        <div class="col-12 text-center py-5">
+            <h4 class="text-muted">Aucune propriété disponible pour le moment.</h4>
+        </div>
+        @endforelse
     </div>
 </div>
 

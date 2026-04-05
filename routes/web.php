@@ -5,7 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
-    return view('welcome');
+    $properties = \App\Models\Property::with(['city', 'images'])->where('status', 'active')
+        ->latest()
+        ->take(6)
+        ->get();
+    return view('welcome', compact('properties'));
 });
 
 Route::middleware('guest')->group(function () {
