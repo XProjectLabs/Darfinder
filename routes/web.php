@@ -38,4 +38,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('cities', App\Http\Controllers\Admin\CityController::class)->except(['show']);
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->only(['index', 'show', 'destroy']);
     Route::post('/users/{user}/toggle-status', [App\Http\Controllers\Admin\UserController::class, 'toggleStatus'])->name('users.toggle-status');
+
+    Route::resource('properties', App\Http\Controllers\Admin\PropertyController::class)->only(['index', 'show']);
+    Route::post('/properties/{property}/approve', [App\Http\Controllers\Admin\PropertyController::class, 'approve'])->name('properties.approve');
+    Route::post('/properties/{property}/reject', [App\Http\Controllers\Admin\PropertyController::class, 'reject'])->name('properties.reject');
 });

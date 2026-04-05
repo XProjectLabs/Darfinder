@@ -37,7 +37,7 @@
 
                         <div class="row g-3">
                             <div class="col-md-6 mb-3">
-                                <label for="phone" class="form-label small fw-bold">Téléphone (Optionnel)</label>
+                                <label for="phone" class="form-label small fw-bold">Téléphone</label>
                                 <input type="text" name="phone" id="phone" class="form-control bg-light border-0 shadow-sm" placeholder="+212 6..." value="{{ old('phone') }}">
                             </div>
                             <div class="col-md-6 mb-3">
