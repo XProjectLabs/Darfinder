@@ -10,28 +10,28 @@
                 <p class="lead mb-5 fs-4">Découvrez des propriétés d'exception alliant tradition séculaire et confort moderne au cœur du Royaume.</p>
                 
                 <div class="card p-4 shadow-lg border-0 bg-white text-dark" style="border-left: 8px solid var(--moroccan-gold) !important;">
-                    <form class="row g-3">
+                    <form class="row g-3" action="{{ route('properties.index') }}" method="GET">
                         <div class="col-md-5">
                             <label class="form-label small fw-bold text-uppercase">Type de Bien</label>
-                            <select class="form-select form-select-lg border-0 bg-light">
-                                <option>Acheter un Riad</option>
-                                <option>Louer un Appartement</option>
-                                <option>Villa de Luxe</option>
+                            <select name="category_id" class="form-select form-select-lg border-0 bg-light">
+                                <option value="">Tous les types</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-uppercase">Ville</label>
-                            <select class="form-select form-select-lg border-0 bg-light">
-                                <option>Toutes les villes</option>
-                                <option>Marrakech</option>
-                                <option>Casablanca</option>
-                                <option>Tanger</option>
-                                <option>Rabat</option>
+                            <select name="city_id" class="form-select form-select-lg border-0 bg-light">
+                                <option value="">Toutes les villes</option>
+                                @foreach($cities as $city)
+                                    <option value="{{ $city->id }}">{{ $city->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-3 d-grid">
                             <label class="form-label invisible">Submit</label>
-                            <button class="btn btn-primary btn-lg" type="button">Explorer</button>
+                            <button class="btn btn-primary btn-lg" type="submit">Explorer</button>
                         </div>
                     </form>
                 </div>
@@ -55,17 +55,29 @@
         @forelse ($properties as $prop)
         <div class="col-md-4">
             <div class="card h-100 shadow-sm">
-                <div class="position-relative">
-                    @php
-                        $primaryImage = $prop->images->where('is_primary', true)->first();
-                        // Fallback image if no physical image exists
-                        $imageUrl = $primaryImage ? asset('storage/' . $primaryImage->path) : 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-                    @endphp
-                    <img src="{{ $imageUrl }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ $prop->title }}">
-                    <div class="position-absolute top-0 start-0 m-3">
-                        <span class="badge badge-status bg-white shadow-sm">Nouveau</span>
+                    <div class="position-relative">
+                        <!-- Favorite Button -->
+                        <button class="btn btn-light rounded-circle shadow-sm position-absolute top-0 end-0 m-3 toggle-favorite" data-id="{{ $prop->id }}" style="z-index: 10; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); background: rgba(255,255,255,0.7);">
+                            @auth
+                                @php
+                                    $isFav = $prop->favorites->where('user_id', auth()->id())->first();
+                                @endphp
+                                <i class="bi bi-heart{{ $isFav ? '-fill text-danger' : '' }} fs-5"></i>
+                            @else
+                                <i class="bi bi-heart fs-5"></i>
+                            @endauth
+                        </button>
+
+                        @php
+                            $primaryImage = $prop->images->where('is_primary', true)->first();
+                            // Fallback image if no physical image exists
+                            $imageUrl = $primaryImage ? asset('storage/' . $primaryImage->path) : 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                        @endphp
+                        <img src="{{ $imageUrl }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ $prop->title }}">
+                        <div class="position-absolute top-0 start-0 m-3">
+                            <span class="badge badge-status bg-white shadow-sm">Nouveau</span>
+                        </div>
                     </div>
-                </div>
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <span class="small text-muted"><i class="bi bi-geo-alt-fill text-gold"></i> {{ $prop->city->name ?? 'Maroc' }}</span>

@@ -14,11 +14,22 @@
         <!-- Section Principale (Images + Informations) -->
         <div class="col-lg-8">
             <!-- Images -->
-            <div class="mb-4">
+            <div class="mb-4 position-relative">
+                <!-- Favorite Button -->
+                <button class="btn btn-light rounded-circle shadow-sm position-absolute top-0 end-0 m-3 toggle-favorite" data-id="{{ $property->id }}" style="z-index: 10; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); background: rgba(255,255,255,0.7);">
+                    @auth
+                        @php
+                            $isFav = $property->favorites->where('user_id', auth()->id())->first();
+                        @endphp
+                        <i class="bi bi-heart{{ $isFav ? '-fill text-danger' : '' }} fs-4"></i>
+                    @else
+                        <i class="bi bi-heart fs-4"></i>
+                    @endauth
+                </button>
                 @php
                     $primaryImage = $property->images->where('is_primary', true)->first();
                     $otherImages = $property->images->where('is_primary', false);
-                    $mainImageUrl = $primaryImage ? asset('storage/' . $primaryImage->image_path) : 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80';
+                    $mainImageUrl = $primaryImage ? asset('storage/' . $primaryImage->path) : 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80';
                 @endphp
                 <img src="{{ $mainImageUrl }}" class="img-fluid rounded-4 shadow-sm w-100 object-fit-cover" style="height: 500px;" alt="{{ $property->title }}">
             </div>
@@ -26,7 +37,7 @@
             <div class="row g-3 mb-5">
                 @foreach($otherImages as $image)
                 <div class="col-4 col-md-3">
-                    <img src="{{ asset('storage/' . $image->image_path) }}" class="img-fluid rounded-3 shadow-sm w-100 object-fit-cover" style="height: 100px; cursor: pointer;" alt="{{ $property->title }}">
+                    <img src="{{ asset('storage/' . $image->path) }}" class="img-fluid rounded-3 shadow-sm w-100 object-fit-cover" style="height: 100px; cursor: pointer;" alt="{{ $property->title }}">
                 </div>
                 @endforeach
             </div>

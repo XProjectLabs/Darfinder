@@ -9,8 +9,13 @@ Route::get('/', function () {
         ->latest()
         ->take(6)
         ->get();
-    return view('welcome', compact('properties'));
+    $cities = \App\Models\City::orderBy('name')->get();
+    $categories = \App\Models\Category::orderBy('name')->get();
+    return view('welcome', compact('properties', 'cities', 'categories'));
 });
+
+Route::get('/properties', [\App\Http\Controllers\Client\PropertyController::class, 'index'])->name('properties.index');
+
 
 Route::get('/properties/{id}', function ($id) {
     $property = \App\Models\Property::with(['city', 'category', 'user', 'images'])->findOrFail($id);
@@ -36,6 +41,12 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Client Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/client/favorites', [\App\Http\Controllers\Client\FavoriteController::class, 'index'])->name('client.favorites');
+    Route::post('/favorites/toggle', [\App\Http\Controllers\Client\FavoriteController::class, 'toggle'])->name('client.favorites.toggle');
+});
 
 // Owner Routes
 Route::middleware(['auth', 'role:propriétaire'])->prefix('owner')->name('owner.')->group(function () {

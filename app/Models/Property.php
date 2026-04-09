@@ -15,6 +15,7 @@ class Property extends Model
         'city_id', 
         'category_id',
         'title', 
+        'address',
         'type', 
         'price', 
         'surface', 
