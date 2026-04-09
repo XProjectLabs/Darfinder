@@ -44,6 +44,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 // Client Routes
 Route::middleware(['auth'])->group(function () {
+    Route::get('/client/profile', [\App\Http\Controllers\Client\ProfileController::class, 'index'])->name('client.profile');
+    Route::put('/client/profile', [\App\Http\Controllers\Client\ProfileController::class, 'update'])->name('client.profile.update');
+    Route::put('/client/profile/password', [\App\Http\Controllers\Client\ProfileController::class, 'updatePassword'])->name('client.profile.password');
+
     Route::get('/client/favorites', [\App\Http\Controllers\Client\FavoriteController::class, 'index'])->name('client.favorites');
     Route::post('/favorites/toggle', [\App\Http\Controllers\Client\FavoriteController::class, 'toggle'])->name('client.favorites.toggle');
 });

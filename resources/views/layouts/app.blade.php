@@ -191,10 +191,10 @@
                         <a class="nav-link" href="/">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Propriétés</a>
+                        <a class="nav-link" href="{{ route('properties.index') }}">Propriétés</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Villes</a>
+                        <a class="nav-link" href="{{ route('properties.index') }}">Villes</a>
                     </li>
                     @guest
                         <li class="nav-item ms-lg-3">
