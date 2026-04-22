@@ -27,11 +27,4 @@ class DashboardController extends Controller
         return view('owner.dashboard', compact('stats', 'recentProperties'));
     }
 
-    public function stats()
-    {
-        $user = Auth::user();
-        $properties = $user->properties()->withCount('favorites')->get();
-        
-        return view('owner.stats', compact('properties'));
-    }
 }

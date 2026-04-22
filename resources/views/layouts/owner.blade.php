@@ -137,15 +137,13 @@
             <a href="{{ route('owner.dashboard') }}" class="nav-link {{ request()->routeIs('owner.dashboard') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2"></i> Tableau de Bord
             </a>
-            <a href="{{ route('owner.properties.index') }}" class="nav-link {{ request()->routeIs('owner.properties.*') ? 'active' : '' }}">
+            <a href="{{ route('owner.properties.index') }}" class="nav-link {{ request()->routeIs(['owner.properties.index', 'owner.properties.edit', 'owner.properties.show']) ? 'active' : '' }}">
                 <i class="bi bi-buildings"></i> Mes Propriétés
             </a>
-            <a href="{{ route('owner.properties.create') }}" class="nav-link">
+            <a href="{{ route('owner.properties.create') }}" class="nav-link {{ request()->routeIs('owner.properties.create') ? 'active' : '' }}">
                 <i class="bi bi-plus-circle"></i> Ajouter un Bien
             </a>
-            <a href="{{ route('owner.stats') }}" class="nav-link {{ request()->routeIs('owner.stats') ? 'active' : '' }}">
-                <i class="bi bi-bar-chart"></i> Statistiques
-            </a>
+
             <a href="{{ route('owner.profile') }}" class="nav-link {{ request()->routeIs('owner.profile') ? 'active' : '' }}">
                 <i class="bi bi-person-gear"></i> Mon Profil
             </a>
