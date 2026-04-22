@@ -31,13 +31,13 @@
                     $otherImages = $property->images->where('is_primary', false);
                     $mainImageUrl = $primaryImage ? asset('storage/' . $primaryImage->path) : 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80';
                 @endphp
-                <img src="{{ $mainImageUrl }}" class="img-fluid rounded-4 shadow-sm w-100 object-fit-cover" style="height: 500px;" alt="{{ $property->title }}">
+                <img src="{{ $mainImageUrl }}" class="img-fluid rounded-4 shadow-sm w-100 object-fit-cover" style="height: 500px; cursor: pointer;" alt="{{ $property->title }}" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImageInModal(this.src)">
             </div>
             
             <div class="row g-3 mb-5">
                 @foreach($otherImages as $image)
                 <div class="col-4 col-md-3">
-                    <img src="{{ asset('storage/' . $image->path) }}" class="img-fluid rounded-3 shadow-sm w-100 object-fit-cover" style="height: 100px; cursor: pointer;" alt="{{ $property->title }}">
+                    <img src="{{ asset('storage/' . $image->path) }}" class="img-fluid rounded-3 shadow-sm w-100 object-fit-cover" style="height: 100px; cursor: pointer;" alt="{{ $property->title }}" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="showImageInModal(this.src)">
                 </div>
                 @endforeach
             </div>
@@ -72,7 +72,7 @@
                             <div class="d-flex align-items-center text-muted">
                                 <i class="bi bi-door-open-fill fs-3 me-3" style="color: var(--moroccan-gold);"></i>
                                 <div>
-                                    <h6 class="mb-0 fw-bold text-dark">Pièces</h6>
+                                    <h6 class="mb-0 fw-bold text-dark">Rooms</h6>
                                     <small>{{ $property->rooms }}</small>
                                 </div>
                             </div>
@@ -131,16 +131,25 @@
                         <div id="phoneDisplay" class="alert mt-2 text-center d-none" style="background-color: #E8F5E9; color: var(--moroccan-green); font-size: 1.25rem; font-weight: bold; border: 1px solid var(--moroccan-green);">
                             <i class="bi bi-telephone-outbound me-2"></i> {{ $phone }}
                         </div>
-
-                        <!-- Bouton Envoyer un email -->
-                        <a href="mailto:{{ $property->user->email ?? '' }}" class="btn btn-primary btn-lg" style="background-color: var(--moroccan-green); border:none;">
-                            <i class="bi bi-envelope-fill me-2"></i> Envoyer un Email
-                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<!-- Image Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content bg-transparent border-0">
+      <div class="modal-header border-0 pb-0 pe-0">
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1); z-index: 1055;"></button>
+      </div>
+      <div class="modal-body text-center p-0">
+        <img src="" id="modalImg" class="img-fluid shadow-lg rounded" style="max-height: 90vh;">
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -149,6 +158,10 @@
         document.getElementById('showPhoneBtn').classList.add('d-none');
         // Afficher l'alerte contenant le numéro
         document.getElementById('phoneDisplay').classList.remove('d-none');
+    }
+
+    function showImageInModal(src) {
+        document.getElementById('modalImg').src = src;
     }
 </script>
 @endsection
