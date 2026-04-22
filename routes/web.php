@@ -31,7 +31,7 @@ Route::get('/properties/{id}', function ($id) {
     $property->increment('views_count');
     
     return view('properties.show', compact('property'));
-})->name('properties.show');
+})->name('properties.show')->middleware('auth');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
