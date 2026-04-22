@@ -89,7 +89,7 @@
             <div class="card border-0 shadow-sm h-100 property-card transition">
                 <div class="position-relative">
                     @if($property->images->count() > 0)
-                        <img src="{{ asset('storage/' . $property->images->first()->image_path) }}" class="card-img-top" alt="{{ $property->title }}" style="height: 180px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
+                        <img src="{{ asset('storage/' . $property->images->first()->path) }}" class="card-img-top" alt="{{ $property->title }}" style="height: 180px; object-fit: cover; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                     @else
                         <div class="bg-light d-flex align-items-center justify-content-center text-muted" style="height: 180px; border-top-left-radius: 15px; border-top-right-radius: 15px;">
                             <i class="bi bi-image fs-1 opacity-25"></i>

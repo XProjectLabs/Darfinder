@@ -41,7 +41,7 @@
                 <div class="carousel-inner">
                     @forelse($property->images as $index => $image)
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                            <img src="{{ asset('storage/' . $image->image_path) }}" class="d-block w-100" alt="Image Property" style="height: 480px; object-fit: cover;">
+                            <img src="{{ asset('storage/' . $image->path) }}" class="d-block w-100" alt="Image Property" style="height: 480px; object-fit: cover;">
                         </div>
                     @empty
                         <div class="carousel-item active">
